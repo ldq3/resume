@@ -199,30 +199,35 @@
 ///   - 1(percent) proficiency
 /// -> block
 #let skill(skill) = {
-  block(
-    width: 100%,
-    inset: (bottom: 0.5em),
-    [
-      #text(weight: 600, size: 0.9em)[#skill.at(0)]
-      #box(
-        width: 100%,
-        height: 0.4em,
-        fill: luma(95%),
-        box(
-          width: skill.at(1),
-          height: 100%,
-          fill: blue
-        )
-      )
-    ]
+  [
+    - 编程语言：#skill.lang.join(", ")
+    - 命令行：#skill.shell.join(", ")
+    - 文档工具：#skill.doc.join(", ")
+  ]
+}
+
+/// 工作经历
+/// 
+/// = experience (dictionary): 包含：
+///   - position (str): 职位
+///   - firm (str): 公司名称
+///   - time (array): 元素类型为 datetime 函数，(开始时间， 结束时间)
+///   - des (array): 元素类型为 str，细节描述
+#let experience(experience) = {
+  item_3c(
+    strong(experience.position),
+    experience.firm,
+    [ #experience.date.at(0).display() - #experience.date.at(1).display() ],
   )
+
+  list(..experience.des)
 }
 
 /// 项目
 ///
 /// - project (dictionary): 包含：
 ///   - name (str): 项目名称 
-///   - type (str): 可选 “个人项目” 或 “实验室项目”
+///   - type (str): 可选 “个人项目” 或 “团队项目”
 ///   - time (array): 项目起始时间和最后更新时间
 ///   - tech (array): 元素的数据类型给为 str
 ///   - intro (str): 项目简介
@@ -241,7 +246,7 @@
   {
     set text(weight: "extralight")
 
-    project.tech.join(", ")
+    project.tech.join(",  ")
   }
 
   [ \ #project.intro ]
