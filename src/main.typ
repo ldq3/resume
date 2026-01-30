@@ -1,10 +1,10 @@
-#import "template.typ": icon, item_3c, config, theme-color, header, edu, skill, project
+#import "../src/template.typ": icon, item_3c, config, theme-color, header, edu, skill, project, experience
 #show: config.with(theme-color: theme-color)
 
-#import "header.typ":data as hd
+#import "../data/header.typ":data as hd
 #header(center: true, hd)
 
-#import "edu.typ":data as ed
+#import "../data/edu.typ":data as ed
 #if ed.len() != 0 {
   [ == #icon("graduation-cap") 教育 ]
 }
@@ -13,16 +13,14 @@
   edu(item)
 }
 
-#import "skill.typ":data as sd
+#import "../data/skill.typ":data as sd
 #if sd.len() != 0 {
   [ == #icon("wrench") 技能 ]
 }
 
-#for item in sd {
-  skill(item)
-}
+#skill(sd)
 
-#import "award.typ":data as ad
+#import "../data/award.typ":data as ad
 #if ad.len() != 0 {
   [ == #icon("award") 获奖情况 ]
 } 
@@ -35,7 +33,16 @@
   )
 }
 
-#import "project.typ": data as pd
+#import "../data/experience.typ":data as ed
+#if ed.len() != 0 {
+  [ == #icon("work") 经历 ]
+}
+
+#for item in ed {
+  experience(item)
+}
+
+#import "../data/project.typ": data as pd
 #if pd.len() != 0 {
   [ == #icon("code") 项目 ]
 }
@@ -44,15 +51,3 @@
   project(item)
 }
 
-#import "experience.typ":data as ed
-#if ed.len() != 0 {
-  [ == #icon("building-columns") 经历 ]
-}
-
-#for item in ed {
-  item_3c(
-    strong(item.name),
-    item.des,
-    item.date,
-  )
-}
